@@ -9,7 +9,7 @@ namespace Example
         {
             var mailer = new Mailer("EmailTemplate/index.html");
 
-            mailer.Send("info@goto10.cz", "frohikey@gmail.com", "Test", new Dictionary<string, object>
+            mailer.Send("info@goto10.cz", "frohikey [@] something", "Test", new Dictionary<string, object>
                                                                         {
                                                                             { "Salutation", "Hello my lovely robot," },
                                                                             { "Yes", "http://www.goto10.cz" },
