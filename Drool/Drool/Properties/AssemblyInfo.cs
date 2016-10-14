@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("Drool")]
 [assembly: AssemblyDescription("Extremely lightweight, easy and cute library for sending HTML e-mails.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Goto10")]
 [assembly: AssemblyProduct("Drool")]
 [assembly: AssemblyCopyright("Copyright © Goto10 2016")]
 [assembly: AssemblyTrademark("")]

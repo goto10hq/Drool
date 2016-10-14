@@ -194,7 +194,7 @@ namespace Drool
 
             mail.Headers["X-SMTPAPI"] = @"
 							{
-							  ""category"" : """ + _category + @"""," +
+							  ""category"" : """ + _category.Value + @"""," +
                                         @"""filters"" : {
 								""clicktrack"" : {
 								  ""settings"" : {
