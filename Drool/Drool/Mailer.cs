@@ -87,9 +87,9 @@ namespace Drool
         /// <summary>
         /// Send email.
         /// </summary>
-        public void Send(MailAddress from, MailAddressCollection tos, string subject, Dictionary<string, object> replacements = null, MailAddressCollection replyTos = null, MailAddressCollection ccs = null)
+        public void Send(MailAddress from, MailAddressCollection tos, string subject, Dictionary<string, object> replacements = null, MailAddressCollection replyTos = null, MailAddressCollection ccs = null, IEnumerable<Attachment> attachments = null)
         {
-            AsyncTools.RunSync(() => SendHelperAsync(from, tos, subject, replacements, replyTos, ccs));
+            AsyncTools.RunSync(() => SendHelperAsync(from, tos, subject, replacements, replyTos, ccs, attachments));
         }
 
         /// <summary>
@@ -103,11 +103,11 @@ namespace Drool
         /// <summary>
         /// Send email.
         /// </summary>
-        public async Task SendAsync(MailAddress from, MailAddressCollection tos, string subject, Dictionary<string, object> replacements = null, MailAddressCollection replyTos = null, MailAddressCollection ccs = null)
+        public async Task SendAsync(MailAddress from, MailAddressCollection tos, string subject, Dictionary<string, object> replacements = null, MailAddressCollection replyTos = null, MailAddressCollection ccs = null, IEnumerable<Attachment> attachments = null)
         {
-            await SendHelperAsync(from, tos, subject, replacements, replyTos, ccs);
+            await SendHelperAsync(from, tos, subject, replacements, replyTos, ccs, attachments);
         }
-
+        
         /// <summary>
         /// Send email.
         /// </summary>
@@ -116,7 +116,7 @@ namespace Drool
             await SendHelperAsync(new MailAddress(from), new MailAddressCollection { new MailAddress(to) }, subject, replacements);
         }
 
-        private async Task SendHelperAsync(MailAddress from, MailAddressCollection tos, string subject, Dictionary<string, object> replacements = null, MailAddressCollection replyTos = null, MailAddressCollection ccs = null)
+        private async Task SendHelperAsync(MailAddress from, MailAddressCollection tos, string subject, Dictionary<string, object> replacements = null, MailAddressCollection replyTos = null, MailAddressCollection ccs = null, IEnumerable<Attachment> attachments = null)
         {
             if (@from == null)
                 throw new ArgumentNullException(nameof(@from));
@@ -190,7 +190,17 @@ namespace Drool
                 }
             }
 
-            mail.AlternateViews.Add(htmlView);                
+            mail.AlternateViews.Add(htmlView);
+            
+            if (attachments != null)
+            {
+                var attachmentList = attachments as IList<Attachment> ?? attachments.ToList();
+
+                foreach (var attachment in attachmentList)
+                {
+                    mail.Attachments.Add(attachment);
+                }
+            }
 
             mail.Headers["X-SMTPAPI"] = @"
 							{
