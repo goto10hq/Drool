@@ -9,6 +9,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web.Hosting;
+using Drool.Configurations;
 using Drool.Tokens;
 using Drool.Tools;
 using HtmlAgilityPack;
@@ -18,22 +19,24 @@ using Sushi;
 namespace Drool
 {
     public class Mailer
-    {        
+    {
+        private IConfiguration Configuration { get; set; }
         private static readonly Lazy<string> _smtpServer = new Lazy<string>(() => CloudConfigurationManager.GetSetting("Drool.SmtpServer"));
         private static readonly Lazy<int> _smtpPort = new Lazy<int>(() => CloudConfigurationManager.GetSetting("Drool.SmtpPort").ToInt32() ?? 25);
         private static readonly Lazy<string> _smtpLogin = new Lazy<string>(() => CloudConfigurationManager.GetSetting("Drool.SmtpLogin"));
-        private static readonly Lazy<string> _smtpPassword = new Lazy<string>(() => CloudConfigurationManager.GetSetting("Drool.SmtpPassword"));        
-        private static readonly Lazy<string> _category = new Lazy<string>(() => CloudConfigurationManager.GetSetting("Drool.Category"));
+        private static readonly Lazy<string> _smtpPassword = new Lazy<string>(() => CloudConfigurationManager.GetSetting("Drool.SmtpPassword"));                
         private static readonly Lazy<SmtpClient> _smtp = new Lazy<SmtpClient>(() => new SmtpClient(_smtpServer.Value, _smtpPort.Value) { DeliveryMethod = SmtpDeliveryMethod.Network });
-        private static EmailTemplate _template;
+        private readonly EmailTemplate _template;      
 
         /// <summary>
         /// Ctor.
         /// </summary>        
-        public Mailer(string fullPath)
-        {
+        public Mailer(string fullPath, IConfiguration configuration = null)
+        {            
             if (fullPath == null)
                 throw new ArgumentNullException(nameof(fullPath));
+
+            Configuration = configuration;
 
             if (!string.IsNullOrEmpty(_smtpLogin.Value) &&
                 !string.IsNullOrEmpty(_smtpPassword.Value))
@@ -202,17 +205,10 @@ namespace Drool
                 }
             }
 
-            mail.Headers["X-SMTPAPI"] = @"
-							{
-							  ""category"" : """ + _category.Value + @"""," +
-                                        @"""filters"" : {
-								""clicktrack"" : {
-								  ""settings"" : {
-									""enable"" : 0
-								  }
-								}
-							  }
-							}";
+            if (Configuration != null)
+            {
+                mail.Headers.Add(Configuration.HeaderValues);
+            } 
                 
             await _smtp.Value.SendMailAsync(mail);
         }

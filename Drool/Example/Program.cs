@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using Drool;
+using Drool.Configurations;
+using Microsoft.Azure;
 
 namespace Example
 {
@@ -7,9 +9,12 @@ namespace Example
     {
         static void Main(string[] args)
         {
-            var mailer = new Mailer("EmailTemplate/index.html");
+            var from = CloudConfigurationManager.GetSetting("EmailFrom");
+            var to = CloudConfigurationManager.GetSetting("EmailFrom");
 
-            mailer.Send("info@goto10.cz", "frohikey [@] something", "Test", new Dictionary<string, object>
+            var mailer = new Mailer("EmailTemplate/index.html", new SendGridConfiguration("Drool", false));
+
+            mailer.Send(from, to, "Test", new Dictionary<string, object>
                                                                         {
                                                                             { "Salutation", "Hello my lovely robot," },
                                                                             { "Yes", "http://www.goto10.cz" },
