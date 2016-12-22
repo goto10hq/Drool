@@ -10,9 +10,11 @@ namespace Example
         static void Main(string[] args)
         {
             var from = CloudConfigurationManager.GetSetting("EmailFrom");
-            var to = CloudConfigurationManager.GetSetting("EmailFrom");
+            var to = CloudConfigurationManager.GetSetting("EmailTo");
 
-            var mailer = new Mailer("EmailTemplate/index.html", new SendGridConfiguration("Drool", false));
+            //var mailer = new Mailer("EmailTemplate/index.html", new SendGrid("Drool", false));
+            //var mailer = new Mailer("EmailTemplate/index.html", new MailGun("Drool"));
+            var mailer = new Mailer("EmailTemplate/index.html", new MailGun(new { category = "Banana", level = 42 }));
 
             mailer.Send(from, to, "Test", new Dictionary<string, object>
                                                                         {

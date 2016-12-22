@@ -8,11 +8,9 @@ namespace Drool.Configurations
     /// SendGrid configuration.
     /// </summary>
     /// <remarks>http://sendgrid.com</remarks>
-    public class SendGridConfiguration : IConfiguration
+    public class SendGrid : IConfiguration
     {
         private const string Header = "X-SMTPAPI";
-
-        private readonly NameValueCollection _result = new NameValueCollection();
 
         private class Filters
         {
@@ -67,16 +65,16 @@ namespace Drool.Configurations
         /// </summary>
         /// <param name="category">E-mail category.</param>
         /// <param name="enableClickTracking">Enable click tracking.</param>
-        public SendGridConfiguration(string category, bool enableClickTracking)
+        public SendGrid(string category, bool enableClickTracking)
         {            
             var token = new Token(category, new Filters(new ClickTrack(new Settings(enableClickTracking))));
             var output = JsonConvert.SerializeObject(token, new BoolConverter());
-            _result.Add(Header, output);
+            HeaderValues.Add(Header, output);
         }
 
         /// <summary>
-        /// Header values.
+        /// Get header values.
         /// </summary>
-        public NameValueCollection HeaderValues => _result;
+        public NameValueCollection HeaderValues { get; } = new NameValueCollection();
     }
 }

@@ -58,7 +58,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configurations\IConfiguration.cs" />
-    <Compile Include="Configurations\SendGridConfiguration.cs" />
+    <Compile Include="Configurations\MailGun.cs" />
+    <Compile Include="Configurations\SendGrid.cs" />
     <Compile Include="Helpers\BoolConverter.cs" />
     <Compile Include="Mailer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
