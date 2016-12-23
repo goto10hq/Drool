@@ -11,44 +11,31 @@ namespace Drool.Configurations
 
     public class MailGun : IConfiguration
     {
-        private const string Header = "X-Mailgun-Variables";
-
-        private class Token
-        {
-            [JsonProperty("category")]
-            public string Category { get; set; }
-            
-            public Token(string category)
-            {
-                Category = category;                
-            }
-        }
-
-        /// /// <summary>
-        /// Ctor.
-        /// </summary>
-        /// <param name="category">E-mail category.</param>
-
-        public MailGun(string category)
-        {                        
-            var token = new Token(category);
-            var output = JsonConvert.SerializeObject(token);
-            HeaderValues.Add(Header, output);
-        }
+        private const string HeaderVariables = "X-Mailgun-Variables";
+        private const string HeaderTag = "X-Mailgun-Tag";
+        private const string HeaderTrack = "X-Mailgun-Track";
 
         /// /// <summary>
         /// Ctor.
         /// </summary>        
-        /// <param name="obj">Object to be serialized as a collection of variables.</param>
-        public MailGun(object obj)
-        {
-            var output = JsonConvert.SerializeObject(obj, Formatting.None,
-                new JsonSerializerSettings
-                {
-                    ContractResolver = new CamelCasePropertyNamesContractResolver()
-                });
+        /// <param name="tag">Tag name.</param>
+        /// <param name="enableClickTracking">Enable click tracking.</param>
+        /// <param name="variables">Object to be serialized as a collection of variables.</param>
+        public MailGun(string tag, bool enableClickTracking, object variables = null)
+        {            
+            HeaderValues.Add(HeaderTag, tag);
+            HeaderValues.Add(HeaderTrack, enableClickTracking ? "yes" : "no");
 
-            HeaderValues.Add(Header, output);
+            if (variables != null)
+            {
+                var output = JsonConvert.SerializeObject(variables, Formatting.None,
+                    new JsonSerializerSettings
+                    {
+                        ContractResolver = new CamelCasePropertyNamesContractResolver()
+                    });
+
+                HeaderValues.Add(HeaderVariables, output);
+            }
         }
 
         /// <summary>
