@@ -170,7 +170,7 @@ namespace Drool
                     if (!Regex.IsMatch(cc.Address, RegexPatterns.Email))
                         throw new Exception($"CC address '{cc.Address} is not valid e-mail.");
 
-                    mail.ReplyToList.Add(cc);
+                    mail.CC.Add(cc);
                 }
             }
 
