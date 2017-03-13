@@ -11,9 +11,9 @@ namespace Drool.Configurations
 
     public class MailGun : IConfiguration
     {
-        private const string HeaderVariables = "X-Mailgun-Variables";
-        private const string HeaderTag = "X-Mailgun-Tag";
-        private const string HeaderTrack = "X-Mailgun-Track";
+        private const string _headerVariables = "X-Mailgun-Variables";
+        private const string _headerTag = "X-Mailgun-Tag";
+        private const string _headerTrack = "X-Mailgun-Track";
 
         /// /// <summary>
         /// Ctor.
@@ -23,8 +23,8 @@ namespace Drool.Configurations
         /// <param name="variables">Object to be serialized as a collection of variables.</param>
         public MailGun(string tag, bool enableClickTracking, object variables = null)
         {            
-            HeaderValues.Add(HeaderTag, tag);
-            HeaderValues.Add(HeaderTrack, enableClickTracking ? "yes" : "no");
+            HeaderValues.Add(_headerTag, tag);
+            HeaderValues.Add(_headerTrack, enableClickTracking ? "yes" : "no");
 
             if (variables != null)
             {
@@ -34,7 +34,7 @@ namespace Drool.Configurations
                         ContractResolver = new CamelCasePropertyNamesContractResolver()
                     });
 
-                HeaderValues.Add(HeaderVariables, output);
+                HeaderValues.Add(_headerVariables, output);
             }
         }
 

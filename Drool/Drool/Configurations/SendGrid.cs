@@ -10,7 +10,7 @@ namespace Drool.Configurations
     /// <remarks>http://sendgrid.com</remarks>
     public class SendGrid : IConfiguration
     {
-        private const string Header = "X-SMTPAPI";
+        private const string _header = "X-SMTPAPI";
 
         private class Filters
         {
@@ -69,7 +69,7 @@ namespace Drool.Configurations
         {            
             var token = new Token(category, new Filters(new ClickTrack(new Settings(enableClickTracking))));
             var output = JsonConvert.SerializeObject(token, new BoolConverter());
-            HeaderValues.Add(Header, output);
+            HeaderValues.Add(_header, output);
         }
 
         /// <summary>
