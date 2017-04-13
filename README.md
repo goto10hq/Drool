@@ -13,3 +13,6 @@
 </appSettings>
 ```
 
+## TODO
+
+- instead of System.Net using MailKit
