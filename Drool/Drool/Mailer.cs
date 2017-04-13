@@ -24,7 +24,8 @@ namespace Drool
         private static readonly Lazy<string> _smtpServer = new Lazy<string>(() => CloudConfigurationManager.GetSetting("Drool.SmtpServer"));
         private static readonly Lazy<int> _smtpPort = new Lazy<int>(() => CloudConfigurationManager.GetSetting("Drool.SmtpPort").ToInt32() ?? 25);
         private static readonly Lazy<string> _smtpLogin = new Lazy<string>(() => CloudConfigurationManager.GetSetting("Drool.SmtpLogin"));
-        private static readonly Lazy<string> _smtpPassword = new Lazy<string>(() => CloudConfigurationManager.GetSetting("Drool.SmtpPassword"));                
+        private static readonly Lazy<string> _smtpPassword = new Lazy<string>(() => CloudConfigurationManager.GetSetting("Drool.SmtpPassword"));
+        private static readonly Lazy<bool> _smtpEnableSsl = new Lazy<bool>(() => CloudConfigurationManager.GetSetting("Drool.SmtpEnableSsl").ToBoolean() ?? false);
         private static readonly Lazy<SmtpClient> _smtp = new Lazy<SmtpClient>(() => new SmtpClient(_smtpServer.Value, _smtpPort.Value) { DeliveryMethod = SmtpDeliveryMethod.Network });
         private readonly EmailTemplate _template;      
 
@@ -37,10 +38,12 @@ namespace Drool
                 throw new ArgumentNullException(nameof(fullPath));
 
             Configuration = configuration;
-
+            
             if (!string.IsNullOrEmpty(_smtpLogin.Value) &&
                 !string.IsNullOrEmpty(_smtpPassword.Value))
                 _smtp.Value.Credentials = new NetworkCredential(_smtpLogin.Value, _smtpPassword.Value);
+
+            _smtp.Value.EnableSsl = _smtpEnableSsl.Value;
 
             if (HostingEnvironment.IsHosted)
                 fullPath = HostingEnvironment.MapPath(fullPath);
