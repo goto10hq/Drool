@@ -1,5 +1,11 @@
 # Drool
 
+## What is it?
+
+Mega easy way to send HTML email with advantages:
+- auto converting images in HTML as inline content (cid resources)
+- possibility for easy string replacing
+
 ## Configuration
 
 ```xml
@@ -13,6 +19,20 @@
 </appSettings>
 ```
 
+## Usage
+
+```csharp
+var mailer = new Mailer("EmailTemplate/index.html", new MailGun("Drool", true, new { level = 42 }));
+
+mailer.Send(from, to, "My subject is test", new Dictionary<string, object>
+    {
+        { "Salutation", "Hello my lovely robot," },
+        { "Yes", "http://www.goto10.cz" },
+        { "No", "http://www.github.com" }
+    });
+```
+
 ## TODO
 
-- instead of System.Net using MailKit
+- some template engine... Razor?
+- instead of System.Net using MailKit?
