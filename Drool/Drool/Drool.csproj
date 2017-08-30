@@ -65,6 +65,7 @@
     <Compile Include="Tools\Converter.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Drool.nuspec" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
