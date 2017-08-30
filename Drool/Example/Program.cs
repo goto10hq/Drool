@@ -12,8 +12,8 @@ namespace Example
             var from = CloudConfigurationManager.GetSetting("EmailFrom");
             var to = CloudConfigurationManager.GetSetting("EmailTo");
 
-            //var mailer = new Mailer("EmailTemplate/index.html", new SendGrid("Drool", false));            
-            var mailer = new Mailer("EmailTemplate/index.html", new MailGun("Drool", false, new { level = 42 }));
+            //var mailer = new Mailer("EmailTemplate/index.html", new MailGun("Drool", false, new { level = 42 }));
+            var mailer = new Mailer("EmailTemplate/index.html", new PlainSmtp());
 
             mailer.Send(from, to, "Test", new Dictionary<string, object>
                                                                         {

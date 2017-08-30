@@ -55,6 +55,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configurations\IConfiguration.cs" />
+    <Compile Include="Configurations\PlainSmtp.cs" />
     <Compile Include="Configurations\MailGun.cs" />
     <Compile Include="Configurations\SendGrid.cs" />
     <Compile Include="Helpers\BoolConverter.cs" />
