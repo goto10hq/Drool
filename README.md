@@ -1,5 +1,9 @@
 # Drool
 
+[![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
+[![Latest Version on NuGet](https://img.shields.io/nuget/v/Drool.svg?style=flat-square)](https://npmjs.com/package/vue-nani-kore)
+[![NuGet](https://img.shields.io/nuget/dt/Drool.svg?style=flat-square)](https://www.npmjs.com/package/vue-nani-kore)
+
 ## What is it?
 
 Mega easy way to send HTML email with advantages:
